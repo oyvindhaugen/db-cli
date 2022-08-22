@@ -18,7 +18,6 @@ var (
 )
 
 func main() {
-	fmt.Println("here")
 	fmt.Println(ActionInt)
 	if ActionInt == 1 {
 		insert(&columns{Id, Age, First_name, Last_name, Email})
