@@ -8,12 +8,29 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type columns struct {
-	id         int
-	age        int
-	first_name string
-	last_name  string
-	email      string
+var (
+	ActionInt  int
+	Id         int
+	Age        int
+	First_name string
+	Last_name  string
+	Email      string
+)
+
+func main() {
+	fmt.Println("here")
+	fmt.Println(ActionInt)
+	if ActionInt == 1 {
+		insert(&columns{Id, Age, First_name, Last_name, Email})
+	} else if ActionInt == 2 {
+		del(&columns{Id, Age, First_name, Last_name, Email})
+	} else if ActionInt == 3 {
+		updt(&columns{Id, Age, First_name, Last_name, Email})
+	} else if ActionInt == 4 {
+		slct(&columns{Id, Age, First_name, Last_name, Email})
+	} else {
+		fmt.Println("Error")
+	}
 }
 
 var pass string = "iktfag"
@@ -89,4 +106,12 @@ func slct(c *columns) error {
 		fmt.Printf("id: %d\n age: %d\n first_name: %s\n last_name: %s\n email: %s\n", id, age, firstname, lastname, email)
 	}
 	return nil
+}
+
+type columns struct {
+	id         int
+	age        int
+	first_name string
+	last_name  string
+	email      string
 }
