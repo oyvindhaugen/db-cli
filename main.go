@@ -1,22 +1,5 @@
 package main
 
-import (
-	"database/sql"
-	"fmt"
-	"log"
-
-	_ "github.com/lib/pq"
-)
-
-var (
-	ActionInt  int
-	Id         int
-	Age        int
-	First_name string
-	Last_name  string
-	Email      string
-)
-
 func main() {
 	fmt.Println(ActionInt)
 	if ActionInt == 1 {
