@@ -50,7 +50,7 @@ func insert(c *columns) error {
 	CheckError(err)
 	defer db.Close()
 
-	_, err = db.Exec("insert into shopping (item, amount) values ($1, $2)", c.item, c.amount)
+	_, err = db.Exec("insert into shopping (Item, Amount) values ($1, $2)", c.item, c.amount)
 	if err != nil {
 		fmt.Println("mo")
 		return err
@@ -64,7 +64,7 @@ func del(c *columns) error {
 	CheckError(err)
 	defer db.Close()
 
-	_, err = db.Exec("delete from shopping where id = $1;", c.id)
+	_, err = db.Exec("delete from shopping where Id = $1;", c.id)
 	if err != nil {
 		fmt.Println("mo")
 		return err
@@ -79,7 +79,7 @@ func updt(c *columns) error {
 	CheckError(err)
 	defer db.Close()
 
-	_, err = db.Query("update shopping set item = $2, amount = $3 where id = $1", c.id, c.item, c.amount)
+	_, err = db.Query("update shopping set Item = $2, Amount = $3 where Id = $1", c.id, c.item, c.amount)
 	if err != nil {
 		fmt.Println("mo")
 		return err
@@ -99,7 +99,7 @@ func slct(c *columns) error {
 		item   string
 		amount int
 	)
-	res, err := db.Query("select * from shopping where id = $1;", c.id)
+	res, err := db.Query("select * from shopping where Id = $1;", c.id)
 	if err != nil {
 		fmt.Println("mo")
 		return err
@@ -110,7 +110,7 @@ func slct(c *columns) error {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("id: %d\n item: %s\n amount: %d\n", id, item, amount)
+		fmt.Printf("Id: %d\n Item: %s\n Amount: %d\n", id, item, amount)
 	}
 
 	fmt.Println("Success")

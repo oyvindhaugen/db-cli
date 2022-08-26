@@ -16,10 +16,10 @@ func cliHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, "POST request successful\n")
-	id := r.FormValue("id")
+	id := r.FormValue("Id")
 	Id, _ = strconv.Atoi(id)
-	Item = r.FormValue("item")
-	amount := r.FormValue("amount")
+	Item = r.FormValue("Item")
+	amount := r.FormValue("Amount")
 	Amount, _ = strconv.Atoi(amount)
 	decide()
 }
@@ -59,9 +59,9 @@ const pass2 = "SaxHusTre05"
 // 	CheckError(err)
 // 	defer db.Close()
 // 	var (
-// 		id     int
-// 		item   string
-// 		amount int
+// 		Id     int
+// 		Item   string
+// 		Amount int
 // 	)
 // 	res, errs := db.Query("select * from shopping;")
 // 	if errs != nil {
@@ -75,11 +75,11 @@ const pass2 = "SaxHusTre05"
 // 	}
 // 	defer f.Close()
 // 	for res.Next() {
-// 		err := res.Scan(&id, &item, &amount)
+// 		err := res.Scan(&Id, &Item, &Amount)
 // 		if err != nil {
 // 			log.Fatal(err)
 // 		}
-// 		varsForJson := &toJson{id: id, item: item, amount: amount}
+// 		varsForJson := &toJson{Id: Id, Item: Item, Amount: Amount}
 // 		byteArray, err := json.Marshal(varsForJson)
 // 		if err != nil {
 // 			fmt.Println(err)
@@ -95,7 +95,7 @@ const pass2 = "SaxHusTre05"
 // }
 
 // type toJson struct {
-// 	id     int    `json: id`
-// 	item   string `json: item`
-// 	amount int    `json: amount`
+// 	Id     int    `json: Id`
+// 	Item   string `json: Item`
+// 	Amount int    `json: Amount`
 // }

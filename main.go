@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -38,12 +39,11 @@ func appendToJson(j *toJson) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		varsForJson := &toJson{id: id, item: item, amount: amount}
-		byteArray, err := json.Marshal(varsForJson)
-		if err != nil {
-			fmt.Println(err)
-		}
-		n, err := f.Write(byteArray)
+		varsForJson := &toJson{Id: id, Item: item, Amount: amount}
+		file, _ := json.MarshalIndent(varsForJson, "", " ")
+
+		_ = ioutil.WriteFile("selectQuery.json", file, 0644)
+		n, err := f.Write(file)
 		if err != nil {
 			fmt.Println(n, err)
 		}
@@ -54,7 +54,7 @@ func appendToJson(j *toJson) {
 }
 
 type toJson struct {
-	id     int    `json: id`
-	item   string `json: item`
-	amount int    `json: amount`
+	Id     int
+	Item   string
+	Amount int
 }
