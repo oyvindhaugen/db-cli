@@ -24,7 +24,7 @@ func cliHandler(w http.ResponseWriter, r *http.Request) {
 	Item = r.FormValue("Item")
 	amount := r.FormValue("Amount")
 	Amount, _ = strconv.Atoi(amount)
-	decide()
+	Decide()
 }
 
 // this tells the db.go what database action is gonna be performed
@@ -49,10 +49,6 @@ func handle() {
 		log.Fatal(err)
 	}
 }
-
-// func onPageLoadMakeRowsJson() {
-
-// }
 
 const pass = "iktfag"
 

@@ -20,7 +20,7 @@ type columns struct {
 }
 
 // this does all the database stuff
-func decide() {
+func Decide() {
 	fmt.Println("here")
 	fmt.Println(ActionInt)
 	if ActionInt == 1 {
