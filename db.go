@@ -8,10 +8,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var ActionInt int
-var Id int
-var Item string
-var Amount int
+var (
+	Id     int
+	Item   string
+	Amount int
+)
 
 type columns struct {
 	id     int
@@ -20,16 +21,14 @@ type columns struct {
 }
 
 // this does all the database stuff
-func Decide() {
-	fmt.Println("here")
-	fmt.Println(ActionInt)
-	if ActionInt == 1 {
+func Decide(i int) {
+	if i == 1 {
 		insert(&columns{Id, Item, Amount})
-	} else if ActionInt == 2 {
+	} else if i == 2 {
 		del(&columns{Id, Item, Amount})
-	} else if ActionInt == 3 {
+	} else if i == 3 {
 		updt(&columns{Id, Item, Amount})
-	} else if ActionInt == 4 {
+	} else if i == 4 {
 		slct(&columns{Id, Item, Amount})
 	} else {
 		fmt.Println("Error")

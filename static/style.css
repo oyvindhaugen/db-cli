@@ -2,12 +2,16 @@ table,
 td,
 th {
     border: 1px solid;
-}
-
-table {
-    width: 10%;
     border-collapse: collapse;
 }
-.amount {
+
+.center {
     text-align: center;
+}
+th:nth-child(odd) {
+ background-color: #D6EEEE;   
+}
+
+th:nth-child(even) {
+ background-color: #D6EEEE;   
 }

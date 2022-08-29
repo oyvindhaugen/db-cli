@@ -25,7 +25,7 @@ func cliHandler(w http.ResponseWriter, r *http.Request) {
 	Item = r.FormValue("Item")
 	amount := r.FormValue("Amount")
 	Amount, _ = strconv.Atoi(amount)
-	Decide()
+	//Decide()
 }
 
 // this tells the db.go what database action is gonna be performed
@@ -37,7 +37,8 @@ func formTestHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/cli.html", http.StatusFound)
 	fmt.Fprintf(w, "POST request successful\n")
 	action := r.FormValue("action")
-	ActionInt, _ = strconv.Atoi(action)
+	ActionInt, _ := strconv.Atoi(action)
+	Decide(ActionInt)
 }
 func handle() {
 	fileServer := http.FileServer(http.Dir("./static"))
