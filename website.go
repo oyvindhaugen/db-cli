@@ -50,6 +50,7 @@ func handle() {
 	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		log.Fatal(err)
 	}
+	appendToJson(&toJson{0, "", 0})
 }
 
 const pass = "iktfag"
