@@ -1,9 +1,12 @@
 package main
 
 import (
+	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	_ "github.com/lib/pq"
@@ -51,51 +54,45 @@ func handle() {
 
 // }
 
-const pass2 = "SaxHusTre05"
+const pass = "iktfag"
 
-// func appendToJson(j *toJson) {
-// 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass2)
-// 	db, err := sql.Open("postgres", psqlconn)
-// 	CheckError(err)
-// 	defer db.Close()
-// 	var (
-// 		Id     int
-// 		Item   string
-// 		Amount int
-// 	)
-// 	res, errs := db.Query("select * from shopping;")
-// 	if errs != nil {
-// 		return
-// 	}
-// 	defer res.Close()
-// 	f, err := os.OpenFile("./selectQuery.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		return
-// 	}
-// 	defer f.Close()
-// 	for res.Next() {
-// 		err := res.Scan(&Id, &Item, &Amount)
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
-// 		varsForJson := &toJson{Id: Id, Item: Item, Amount: Amount}
-// 		byteArray, err := json.Marshal(varsForJson)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 		}
-// 		n, err := f.Write(byteArray)
-// 		if err != nil {
-// 			fmt.Println(n, err)
-// 		}
-// 		if n, err = f.WriteString("\n"); err != nil {
-// 			fmt.Println(n, err)
-// 		}
-// 	}
-// }
+func appendToJson(j *toJson) {
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass)
+	db, err := sql.Open("postgres", psqlconn)
+	if err != nil {
+		log.Fatal()
+	}
+	defer db.Close()
+	var (
+		id     int
+		item   string
+		amount int
+	)
+	res, errs := db.Query("select * from shopping;")
+	if errs != nil {
+		return
+	}
+	defer res.Close()
+	f, err := os.OpenFile("./selectQuery.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+	for res.Next() {
+		err := res.Scan(&id, &item, &amount)
+		if err != nil {
+			fmt.Println(err)
+		}
+		items := &toJson{Id: id, Item: item, Amount: amount}
+		file, _ := json.MarshalIndent(items, "", " ")
 
-// type toJson struct {
-// 	Id     int    `json: Id`
-// 	Item   string `json: Item`
-// 	Amount int    `json: Amount`
-// }
+		_ = os.WriteFile("selectQuery.json", file, 0666)
+	}
+}
+
+type toJson struct {
+	Id     int
+	Item   string
+	Amount int
+}

@@ -19,7 +19,7 @@ type columns struct {
 	amount int
 }
 
-//this does all the database stuff
+// this does all the database stuff
 func decide() {
 	fmt.Println("here")
 	fmt.Println(ActionInt)
@@ -42,10 +42,10 @@ func CheckError(err error) {
 	}
 }
 
-var pass string = ""
+const pass3 = "iktfag"
 
 func insert(c *columns) error {
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
