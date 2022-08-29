@@ -72,17 +72,11 @@ func appendToJson(j *toJson) {
 		item   string
 		amount int
 	)
-	res, errs := db.Query("select * from shopping;")
-	if errs != nil {
+	res, err := db.Query("select * from shopping;")
+	if err != nil {
 		return
 	}
 	defer res.Close()
-	// f, err := os.OpenFile("./selectQuery.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// defer f.Close()
 	var toJsonString string
 	for res.Next() {
 		err := res.Scan(&id, &item, &amount)
@@ -91,8 +85,6 @@ func appendToJson(j *toJson) {
 		}
 		items := &toJson{Id: id, Item: item, Amount: amount}
 		file, _ := json.MarshalIndent(items, "", " ")
-
-		// _ = os.WriteFile("selectQuery.json", file, 0666)
 		toJsonString = toJsonString + string(file) + ","
 	}
 
