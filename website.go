@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"unicode/utf8"
 
 	_ "github.com/lib/pq"
 )
@@ -52,6 +53,13 @@ func handle() {
 
 const pass = "iktfag"
 
+func trimLastChar(s string) string {
+	r, size := utf8.DecodeLastRuneInString(s)
+	if r == utf8.RuneError && (size == 0 || size == 1) {
+		size = 0
+	}
+	return s[:len(s)-size]
+}
 func appendToJson(j *toJson) {
 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass)
 	db, err := sql.Open("postgres", psqlconn)
@@ -69,12 +77,13 @@ func appendToJson(j *toJson) {
 		return
 	}
 	defer res.Close()
-	f, err := os.OpenFile("./selectQuery.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer f.Close()
+	// f, err := os.OpenFile("./selectQuery.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+	// defer f.Close()
+	var toJsonString string
 	for res.Next() {
 		err := res.Scan(&id, &item, &amount)
 		if err != nil {
@@ -83,8 +92,13 @@ func appendToJson(j *toJson) {
 		items := &toJson{Id: id, Item: item, Amount: amount}
 		file, _ := json.MarshalIndent(items, "", " ")
 
-		_ = os.WriteFile("selectQuery.json", file, 0666)
+		// _ = os.WriteFile("selectQuery.json", file, 0666)
+		toJsonString = toJsonString + string(file) + ","
 	}
+
+	toJsonString = trimLastChar(toJsonString)
+	toJsonString = "[" + toJsonString + "]"
+	_ = os.WriteFile("selectQuery.json", []byte(toJsonString), 0666)
 }
 
 type toJson struct {

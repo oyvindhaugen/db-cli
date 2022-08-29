@@ -1,5 +1,6 @@
 package main
 
 func main() {
-	handle()
+	//handle()
+	appendToJson(&toJson{0, "", 0})
 }
