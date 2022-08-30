@@ -14,37 +14,69 @@ import (
 )
 
 // this is the handler for cli.html and it gives all the parameters needed for database queries
-func cliHandler(w http.ResponseWriter, r *http.Request) {
+//
+//	func cliHandler(w http.ResponseWriter, r *http.Request) {
+//		if err := r.ParseForm(); err != nil {
+//			fmt.Fprintf(w, "ParseForm() err: %v", err)
+//			return
+//		}
+//		fmt.Fprintf(w, "POST request successful\n")
+//		id := r.FormValue("Id")
+//		Id, _ = strconv.Atoi(id)
+//		Item = r.FormValue("Item")
+//		amount := r.FormValue("Amount")
+//		Amount, _ = strconv.Atoi(amount)
+//		//Decide()
+//	}
+func insertHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
 		return
 	}
 	fmt.Fprintf(w, "POST request successful\n")
-	id := r.FormValue("Id")
-	Id, _ = strconv.Atoi(id)
-	Item = r.FormValue("Item")
-	amount := r.FormValue("Amount")
-	Amount, _ = strconv.Atoi(amount)
-	//Decide()
+	http.Redirect(w, r, "/", http.StatusFound)
+	id := r.FormValue("id")
+	idInt, _ := strconv.Atoi(id)
+	item := r.FormValue("newItem")
+	amount := r.FormValue("newAmount")
+	amountInt, _ := strconv.Atoi(amount)
+	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
+	//Decide(1, idInt, item, amountInt)
+}
+func updatehandler(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	fmt.Fprintf(w, "POST request successful\n")
+	http.Redirect(w, r, "/", http.StatusFound)
+	id := r.FormValue("id")
+	idInt, _ := strconv.Atoi(id)
+	item := r.FormValue("newItem")
+	amount := r.FormValue("newAmount")
+	amountInt, _ := strconv.Atoi(amount)
+	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
+	//Decide(3, idInt, item, amountInt)
 }
 
 // this tells the db.go what database action is gonna be performed
-func formTestHandler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
-		return
-	}
-	http.Redirect(w, r, "/cli.html", http.StatusFound)
-	fmt.Fprintf(w, "POST request successful\n")
-	action := r.FormValue("action")
-	ActionInt, _ := strconv.Atoi(action)
-	Decide(ActionInt)
-}
+//
+//	func formTestHandler(w http.ResponseWriter, r *http.Request) {
+//		if err := r.ParseForm(); err != nil {
+//			fmt.Fprintf(w, "ParseForm() err: %v", err)
+//			return
+//		}
+//		http.Redirect(w, r, "/cli.html", http.StatusFound)
+//		fmt.Fprintf(w, "POST request successful\n")
+//		action := r.FormValue("action")
+//		ActionInt, _ := strconv.Atoi(action)
+//		Decide(ActionInt)
+//	}
 func handle() {
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fileServer)
-	http.HandleFunc("/index", formTestHandler)
-	http.HandleFunc("/cli", cliHandler)
+	http.HandleFunc("/insert", insertHandler)
+	http.HandleFunc("/update", updatehandler)
 
 	fmt.Printf("Starting server at port 8080\n")
 	if err := http.ListenAndServe("localhost:8080", nil); err != nil {

@@ -14,4 +14,12 @@
  "Id": 4,
  "Item": "Sausage",
  "Amount": 6
+},{
+ "Id": 5,
+ "Item": "Steak",
+ "Amount": 7
+},{
+ "Id": 6,
+ "Item": "Spaghetti",
+ "Amount": 6
 }]

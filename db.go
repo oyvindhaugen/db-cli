@@ -21,15 +21,15 @@ type columns struct {
 }
 
 // this does all the database stuff
-func Decide(i int) {
+func Decide(i int, id int, item string, amount int) {
 	if i == 1 {
-		insert(&columns{Id, Item, Amount})
+		insert(&columns{Id, Item, Amount}, item, amount)
 	} else if i == 2 {
-		del(&columns{Id, Item, Amount})
+		del(&columns{Id, Item, Amount}, id)
 	} else if i == 3 {
-		updt(&columns{Id, Item, Amount})
+		updt(&columns{Id, Item, Amount}, id, item, amount)
 	} else if i == 4 {
-		slct(&columns{Id, Item, Amount})
+		slct(&columns{Id, Item, Amount}, id)
 	} else {
 		fmt.Println("Error")
 	}
@@ -43,7 +43,7 @@ func CheckError(err error) {
 
 const pass3 = "iktfag"
 
-func insert(c *columns) error {
+func insert(c *columns, item string, amount int) error {
 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
@@ -57,7 +57,7 @@ func insert(c *columns) error {
 	fmt.Println("Success")
 	return nil
 }
-func del(c *columns) error {
+func del(c *columns, id int) error {
 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
@@ -71,7 +71,7 @@ func del(c *columns) error {
 	fmt.Println("Success")
 	return nil
 }
-func updt(c *columns) error {
+func updt(c *columns, id int, item string, amount int) error {
 
 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass)
 	db, err := sql.Open("postgres", psqlconn)
@@ -86,7 +86,7 @@ func updt(c *columns) error {
 	fmt.Println("Success")
 	return nil
 }
-func slct(c *columns) error {
+func slct(c *columns, ids int) error {
 
 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass)
 	db, err := sql.Open("postgres", psqlconn)
