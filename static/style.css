@@ -21,3 +21,8 @@ th:nth-child(even) {
 .jc-center {
     justify-content: center;
 }
+.tableStyle {
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 10%;
+}

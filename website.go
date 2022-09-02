@@ -78,8 +78,8 @@ func handle() {
 	http.HandleFunc("/insert", insertHandler)
 	http.HandleFunc("/update", updatehandler)
 
-	fmt.Printf("Starting server at port 8080\n")
-	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
+	fmt.Printf("Starting server at port 127.0.0.1:5500\n")
+	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
 		log.Fatal(err)
 	}
 	appendToJson(&toJson{0, "", 0})
@@ -124,7 +124,7 @@ func appendToJson(j *toJson) {
 
 	toJsonString = trimLastChar(toJsonString)
 	toJsonString = "[" + toJsonString + "]"
-	_ = os.WriteFile("selectQuery.json", []byte(toJsonString), 0666)
+	_ = os.WriteFile("./static/selectQuery.json", []byte(toJsonString), 0666)
 }
 
 type toJson struct {
