@@ -11,23 +11,9 @@ import (
 	"unicode/utf8"
 
 	_ "github.com/lib/pq"
+	"github.com/robfig/cron/v3"
 )
 
-// this is the handler for cli.html and it gives all the parameters needed for database queries
-//
-//	func cliHandler(w http.ResponseWriter, r *http.Request) {
-//		if err := r.ParseForm(); err != nil {
-//			fmt.Fprintf(w, "ParseForm() err: %v", err)
-//			return
-//		}
-//		fmt.Fprintf(w, "POST request successful\n")
-//		id := r.FormValue("Id")
-//		Id, _ = strconv.Atoi(id)
-//		Item = r.FormValue("Item")
-//		amount := r.FormValue("Amount")
-//		Amount, _ = strconv.Atoi(amount)
-//		//Decide()
-//	}
 func insertHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
@@ -56,22 +42,8 @@ func updatehandler(w http.ResponseWriter, r *http.Request) {
 	amount := r.FormValue("newAmount")
 	amountInt, _ := strconv.Atoi(amount)
 	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
-	//Decide(3, idInt, item, amountInt)
 }
 
-// this tells the db.go what database action is gonna be performed
-//
-//	func formTestHandler(w http.ResponseWriter, r *http.Request) {
-//		if err := r.ParseForm(); err != nil {
-//			fmt.Fprintf(w, "ParseForm() err: %v", err)
-//			return
-//		}
-//		http.Redirect(w, r, "/cli.html", http.StatusFound)
-//		fmt.Fprintf(w, "POST request successful\n")
-//		action := r.FormValue("action")
-//		ActionInt, _ := strconv.Atoi(action)
-//		Decide(ActionInt)
-//	}
 func handle() {
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fileServer)
@@ -82,7 +54,12 @@ func handle() {
 	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
 		log.Fatal(err)
 	}
-	appendToJson(&toJson{0, "", 0})
+	aTJTime()
+}
+func aTJTime() {
+	c := cron.New()
+	c.AddFunc("@every 60s", appendToJson)
+	c.Start()
 }
 
 const pass = "iktfag"
@@ -94,7 +71,7 @@ func trimLastChar(s string) string {
 	}
 	return s[:len(s)-size]
 }
-func appendToJson(j *toJson) {
+func appendToJson() {
 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass)
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {

@@ -1,7 +1,12 @@
+function redirectToInsert() {
+    alert("Hello")
+}
+
+console.log("Hello")
 let oXHR = new XMLHttpRequest()
 oXHR.onreadystatechange = reportStatus
 oXHR.open("GET", "../selectQuery.json", true)
-oXHR.send();
+oXHR.send()
 function reportStatus() {
     if (oXHR.readyState === 4) {
         createTableFromJSON(this.responseText)
