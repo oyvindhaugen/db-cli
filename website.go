@@ -7,11 +7,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	// "path/filepath"
 	"strconv"
 	"unicode/utf8"
 
+	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
-	"github.com/robfig/cron/v3"
+	// "github.com/robfig/cron/v3"
 )
 
 func insertHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,24 +46,51 @@ func updatehandler(w http.ResponseWriter, r *http.Request) {
 	amountInt, _ := strconv.Atoi(amount)
 	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
 }
+func deleteRow(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	var data deletedRow
 
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		fmt.Println(err.Error())
+		var resData deletedRowRes
+		resData.Id = 0
+		resData.Result = "There was an error with json data"
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(resData)
+		return
+	}
+	Decide(2, data.Id, "", 0)
+	var resData deletedRowRes
+	resData.Id = data.Id
+	resData.Result = "Successfully deleted"
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(resData)
+	return
+}
 func handle() {
-	fileServer := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fileServer)
-	http.HandleFunc("/insert", insertHandler)
-	http.HandleFunc("/update", updatehandler)
+	router := httprouter.New()
+	router.ServeFiles("./static/*filepath", http.Dir("scripts"))
+
+	router.POST("/delete_row", deleteRow)
+
+	// fileServer := http.FileServer(http.Dir("./static"))
+	// http.Handle("/", fileServer)
+	// http.HandleFunc("/insert", insertHandler)
+	// http.HandleFunc("/update", updatehandler)
+	// http.Post("/delete_row", deleteRow)
 
 	fmt.Printf("Starting server at port 127.0.0.1:5500\n")
 	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
 		log.Fatal(err)
 	}
-	aTJTime()
+	// aTJTime()
 }
-func aTJTime() {
-	c := cron.New()
-	c.AddFunc("@every 60s", appendToJson)
-	c.Start()
-}
+
+// func aTJTime() {
+// 	c := cron.New()
+// 	c.AddFunc("@every 60s", appendToJson)
+// 	c.Start()
+// }
 
 const pass = "iktfag"
 
@@ -108,4 +138,11 @@ type toJson struct {
 	Id     int
 	Item   string
 	Amount int
+}
+type deletedRow struct {
+	Id int
+}
+type deletedRowRes struct {
+	Result string
+	Id     int
 }

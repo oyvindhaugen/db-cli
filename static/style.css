@@ -26,3 +26,8 @@ th:nth-child(even) {
     margin-right: auto; 
     width: 10%;
 }
+.deleteEdit {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+}

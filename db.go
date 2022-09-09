@@ -58,7 +58,7 @@ func insert(c *columns, item string, amount int) error {
 	return nil
 }
 func del(c *columns, id int) error {
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
@@ -73,7 +73,7 @@ func del(c *columns, id int) error {
 }
 func updt(c *columns, id int, item string, amount int) error {
 
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
@@ -88,7 +88,7 @@ func updt(c *columns, id int, item string, amount int) error {
 }
 func slct(c *columns, ids int) error {
 
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
