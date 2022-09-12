@@ -65,19 +65,17 @@ func deleteRow(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 	resData.Result = "Successfully deleted"
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(resData)
-	return
 }
 func handle() {
 	router := httprouter.New()
-	router.ServeFiles("./static/*filepath", http.Dir("scripts"))
+	router.ServeFiles("/static/*filepath", http.Dir("scripts"))
 
 	router.POST("/delete_row", deleteRow)
 
-	// fileServer := http.FileServer(http.Dir("./static"))
-	// http.Handle("/", fileServer)
-	// http.HandleFunc("/insert", insertHandler)
-	// http.HandleFunc("/update", updatehandler)
-	// http.Post("/delete_row", deleteRow)
+	fileServer := http.FileServer(http.Dir("./static"))
+	http.Handle("/", fileServer)
+	http.HandleFunc("/insert", insertHandler)
+	http.HandleFunc("/update", updatehandler)
 
 	fmt.Printf("Starting server at port 127.0.0.1:5500\n")
 	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
