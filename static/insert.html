@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Insert | Shopping List</title>
-    <link rel="stylesheet" href="./style.css">
-  </head>
-  <body>
-    <main>
-        <h1>Give new item and amount</h1>
-        <form method="POST" action="/insert">
-            <label>Id </label><input name="id" type="number" value=""/>
-            <br>
-            <label>Item </label><input name="newItem" type="text" value=""/>
-            <br>
-            <label>Amount </label><input name="newAmount" type="number" value=""/>
-            <br>
-            <input type="submit" value="Submit"/>
-        </form>
-    </main>
-	<script src="insert.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Insert | Shopping List</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <main>
+    <h1>Give new item and amount</h1>
+    <label>Item: <input type="text" id="item"></label>
+    <label>Amount: <input type="number" id="amount"></label>
+    <input type="button" value="Submit" onclick="insertRow()">
+  </main>
+  <script src="./scripts/insert.js"></script>
+</body>
+
 </html>

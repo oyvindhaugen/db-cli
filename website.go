@@ -13,19 +13,28 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func insertHandler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
+func insertRow(w http.ResponseWriter, r *http.Request) {
+	var data insertedRow
+
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		fmt.Println(err.Error())
+		var resData insertedRowRes
+		resData.Item = data.Item
+		resData.Result = "There was an error with json data"
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(resData)
 		return
 	}
-	fmt.Fprintf(w, "POST request successful\n")
-	http.Redirect(w, r, "/", http.StatusFound)
-	id := r.FormValue("id")
-	idInt, _ := strconv.Atoi(id)
-	item := r.FormValue("newItem")
-	amount := r.FormValue("newAmount")
-	amountInt, _ := strconv.Atoi(amount)
-	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
+	fmt.Println(data.Item, data.Amount)
+	Decide(1, 0, data.Item, data.Amount)
+	var resData insertedRowRes
+	resData.Item = data.Item
+	resData.Result = "Successfully inserted"
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(resData)
+
+	appendToJson()
 }
 func updatehandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
@@ -67,8 +76,7 @@ func handle() {
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fileServer)
 	http.HandleFunc("/delete_row", deleteRow)
-	http.HandleFunc("/insert", insertHandler)
-	http.HandleFunc("/update", updatehandler)
+	http.HandleFunc("/insert_row", insertRow)
 	appendToJson()
 	fmt.Printf("Starting server at port 127.0.0.1:5500\n")
 	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
@@ -129,4 +137,12 @@ type deletedRow struct {
 type deletedRowRes struct {
 	Result string
 	Id     int
+}
+type insertedRow struct {
+	Item   string
+	Amount int
+}
+type insertedRowRes struct {
+	Result string
+	Item   string
 }

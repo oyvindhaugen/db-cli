@@ -48,10 +48,8 @@ func insert(c *columns, item string, amount int) error {
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
-
-	_, err = db.Exec("insert into shopping (item, amount) values ($1, $2)", c.item, c.amount)
+	_, err = db.Exec("insert into shopping (item, amount) values ($1, $2)", item, amount)
 	if err != nil {
-		fmt.Println("mo")
 		return err
 	}
 	fmt.Println("Success")

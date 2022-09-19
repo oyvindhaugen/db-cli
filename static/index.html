@@ -13,23 +13,18 @@
     <h1 style="text-align: center;">Welcome to My Website</h1>
     <div>
     <div class="flex-parent jc-center" id = 'showTable'>
-      
       <!-- This is where the dynamic table is used -->
     </div>
-    <div class = 'deleteEdit' id = 'showBt'>
-      <!-- <input type="button" value="Delete row" class = "delButton" onclick="createDelButtons(0)" id="b1"> -->
-      <!-- Continue adding delete button -->
+    <div class = 'deleteEdit' id = 'showBtn'>
     </div>
   </div>
-    <!-- <div class = 'deleteEdit'>
-      <input type="button" value="Delete row" class = "delButton" >
-    </div> -->
     <br>
     <div class="flex-parent jc-center">
       <input type="button" value="Go to insert" id="addNewButton" onclick="window.location.href='/insert.html'">
-      <input type="button" value="Go to update" id="addNewButton" onclick="redirectToInsert()">
+      <input type="button" value="Go to update" id="addNewButton" onclick="updateRow(this.id)">
     </div>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/update.js"></script>
 </body>
 
 </html>

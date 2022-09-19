@@ -28,12 +28,16 @@ function createTableFromJSON(jsonData) {
     let table = document.createElement("table")
     let tr = table.insertRow(-1)
 
-    for (let i = 0; i < col.length + 1; i++) {
+    for (let i = 0; i < col.length + 2; i++) {
         let th = document.createElement("th")
         th.innerHTML = col[i]
         tr.appendChild(th)
         if (i === 3) {
             th.innerHTML = 'delBtn'
+            tr.appendChild(th)
+        }
+        if (i === 4) {
+            th.innerHTML = 'updtBtn'
             tr.appendChild(th)
         }
     }
@@ -42,27 +46,41 @@ function createTableFromJSON(jsonData) {
     for (let i = 0; i < arrShopping.length; i++) {
         tr = table.insertRow(-1)
         tr.setAttribute('id', "tr" + (i + 1))
-        for (let j = 0; j < col.length + 1; j++) {
+        for (let j = 0; j < col.length + 2; j++) {
             let tabCell = tr.insertCell(-1)
             tabCell.innerHTML = arrShopping[i][col[j]]
-            if (j == 3) {
+            if (j === 3) {
                 tabCell.innerHTML = 'Delete'
                 tabCell.setAttribute('type', 'button')
-                tabCell.setAttribute('value', 'Delete row')
+                tabCell.setAttribute('value', 'Delete Row')
                 tabCell.setAttribute('class', 'delButton')
                 tabCell.setAttribute('onclick', 'deleteRow(this.id)')
-                tabCell.setAttribute('id', 'b' + (arrShopping[i][col[0]]))
+                tabCell.setAttribute('id', 'd' + (arrShopping[i][col[0]]))
+            }
+            if (j === 4) {
+                tabCell.innerHTML = 'Update'
+                tabCell.setAttribute('type', 'button')
+                tabCell.setAttribute('value', 'Update Row')
+                tabCell.setAttribute('class', 'updtButton')
+                tabCell.setAttribute('onclick', 'updateRowPre(this.id)')
+                tabCell.setAttribute('id', 'u' + (arrShopping[i][col[0]]))
             }
         }
     }
-
+function updateRowPre(id) {
+    //need to pass id through to update.html while redirecting
+}
     let divContainer = document.getElementById('showTable')
     divContainer.innerHTML = ""
     divContainer.appendChild(table)
-    let divContainerBt = document.getElementById('showBt')
+    let divContainerBt = document.getElementById('showBtn')
     divContainerBt.innerHTML = ""
 }
-
+function updateRow(id) {
+    id = trim(id)
+    id = parseInt(id)
+    
+}
 function deleteRow(id) {
     if (window.confirm('Are you sure you want to delete this item?')) {
     id = trim(id)
@@ -92,5 +110,4 @@ function trim(s) {
     let sTrimmed = s.substring(1)
     return sTrimmed
 }
-
 
