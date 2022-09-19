@@ -1,3 +1,4 @@
+
 function redirectToInsert() {
     alert("Hello")
 }
@@ -39,7 +40,6 @@ function createTableFromJSON(jsonData) {
 
 
     for (let i = 0; i < arrShopping.length; i++) {
-        let bt = addAttrToButton(i)
         tr = table.insertRow(-1)
         tr.setAttribute('id', "tr" + (i + 1))
         for (let j = 0; j < col.length + 1; j++) {
@@ -50,14 +50,8 @@ function createTableFromJSON(jsonData) {
                 tabCell.setAttribute('type', 'button')
                 tabCell.setAttribute('value', 'Delete row')
                 tabCell.setAttribute('class', 'delButton')
-                tabCell.setAttribute('onclick', '')
-                tabCell.setAttribute('id', 'b' + (i + 1))
-                tabCell.addEventListener('click', function () {
-                    console.log('test', tabCell.id)
-                    //now it logs to console its id
-                    //use this to tell the database to delete a certain item
-                    //maybe an alert to confirm
-                })
+                tabCell.setAttribute('onclick', 'deleteRow(this.id)')
+                tabCell.setAttribute('id', 'b' + (arrShopping[i][col[0]]))
             }
         }
     }
@@ -69,20 +63,12 @@ function createTableFromJSON(jsonData) {
     divContainerBt.innerHTML = ""
 }
 
-function addAttrToButton(id) {
-    let input = document.createElement('input')
-    input.setAttribute('type', 'button')
-    input.setAttribute('value', 'Delete row')
-    input.setAttribute('class', 'delButton')
-    input.setAttribute('onclick', 'test()')
-    input.setAttribute('id', 'b' + (id + 1))
-    console.log(input)
-    return input
-}
-
 function deleteRow(id) {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+    id = trim(id)
+    id = parseInt(id)
     let data = {
-        Id: 3
+        Id: id
     }
     fetch("/delete_row", {
         headers: {
@@ -99,15 +85,12 @@ function deleteRow(id) {
     }).catch((error) => {
         console.log(error)
     })
+    setTimeout(() => {window.location.reload()}, 350)
 }
-// function test() {
-//     let i = 1
-//     let current = document.getElementById("b" + i)
-//     console.log(current.id)
-// }
-//This function trims away the first character in the id of button
-//so it can be used to delete from table
+}
 function trim(s) {
     let sTrimmed = s.substring(1)
     return sTrimmed
 }
+
+

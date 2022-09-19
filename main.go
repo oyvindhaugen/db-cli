@@ -8,7 +8,6 @@ package main
 
 func main() {
 	handle()
-	// runCronJobs()
 }
 
 // func hello(name string) {

@@ -49,7 +49,7 @@ func insert(c *columns, item string, amount int) error {
 	CheckError(err)
 	defer db.Close()
 
-	_, err = db.Exec("insert into shopping (Item, Amount) values ($1, $2)", c.item, c.amount)
+	_, err = db.Exec("insert into shopping (item, amount) values ($1, $2)", c.item, c.amount)
 	if err != nil {
 		fmt.Println("mo")
 		return err
@@ -58,27 +58,29 @@ func insert(c *columns, item string, amount int) error {
 	return nil
 }
 func del(c *columns, id int) error {
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass3)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
 
-	_, err = db.Exec("delete from shopping where Id = $1;", c.id)
+	_, err = db.Exec("delete from shopping where id = $1;", id)
 	if err != nil {
 		fmt.Println("mo")
+		fmt.Println(err)
 		return err
 	}
 	fmt.Println("Success")
+	appendToJson()
 	return nil
 }
 func updt(c *columns, id int, item string, amount int) error {
 
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass3)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
 
-	_, err = db.Query("update shopping set Item = $2, Amount = $3 where Id = $1", c.id, c.item, c.amount)
+	_, err = db.Query("update shopping set item = $2, amount = $3 where id = $1", c.id, c.item, c.amount)
 	if err != nil {
 		fmt.Println("mo")
 		return err
@@ -88,7 +90,7 @@ func updt(c *columns, id int, item string, amount int) error {
 }
 func slct(c *columns, ids int) error {
 
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = first_db sslmode=disable", pass3)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass3)
 	db, err := sql.Open("postgres", psqlconn)
 	CheckError(err)
 	defer db.Close()
@@ -98,7 +100,7 @@ func slct(c *columns, ids int) error {
 		item   string
 		amount int
 	)
-	res, err := db.Query("select * from shopping where Id = $1;", c.id)
+	res, err := db.Query("select * from shopping where id = $1;", c.id)
 	if err != nil {
 		fmt.Println("mo")
 		return err

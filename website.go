@@ -7,14 +7,10 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	// "path/filepath"
 	"strconv"
 	"unicode/utf8"
 
-	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
-	// "github.com/robfig/cron/v3"
 )
 
 func insertHandler(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +26,6 @@ func insertHandler(w http.ResponseWriter, r *http.Request) {
 	amount := r.FormValue("newAmount")
 	amountInt, _ := strconv.Atoi(amount)
 	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
-	//Decide(1, idInt, item, amountInt)
 }
 func updatehandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
@@ -46,7 +41,7 @@ func updatehandler(w http.ResponseWriter, r *http.Request) {
 	amountInt, _ := strconv.Atoi(amount)
 	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
 }
-func deleteRow(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func deleteRow(w http.ResponseWriter, r *http.Request) {
 	var data deletedRow
 
 	err := json.NewDecoder(r.Body).Decode(&data)
@@ -65,30 +60,21 @@ func deleteRow(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 	resData.Result = "Successfully deleted"
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(resData)
+
+	appendToJson()
 }
 func handle() {
-	router := httprouter.New()
-	router.ServeFiles("/static/*filepath", http.Dir("scripts"))
-
-	router.POST("/delete_row", deleteRow)
-
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fileServer)
+	http.HandleFunc("/delete_row", deleteRow)
 	http.HandleFunc("/insert", insertHandler)
 	http.HandleFunc("/update", updatehandler)
-
+	appendToJson()
 	fmt.Printf("Starting server at port 127.0.0.1:5500\n")
 	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
 		log.Fatal(err)
 	}
-	// aTJTime()
 }
-
-// func aTJTime() {
-// 	c := cron.New()
-// 	c.AddFunc("@every 60s", appendToJson)
-// 	c.Start()
-// }
 
 const pass = "iktfag"
 
