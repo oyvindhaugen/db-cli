@@ -1,5 +1,4 @@
 function insertRow() {
-    // amount = parseInt(amount)
     let item = document.getElementById('item')
     let amount = document.getElementById('amount')
     let data = {
@@ -21,7 +20,5 @@ function insertRow() {
     }).catch((error) => {
         console.log(error)
     })
-
-    console.log(typeof(item.value), amount.value)
     window.location.href="/"
 }

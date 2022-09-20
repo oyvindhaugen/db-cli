@@ -1,8 +1,4 @@
-
-function redirectToInsert() {
-    alert("Hello")
-}
-
+//This accesses the JSON file containing the data from the database
 let oXHR = new XMLHttpRequest()
 oXHR.onreadystatechange = reportStatus
 oXHR.open("GET", "../selectQuery.json", true)
@@ -12,6 +8,7 @@ function reportStatus() {
         createTableFromJSON(this.responseText)
     }
 }
+//This uses the data from the JSON file to create a dynamic table.
 function createTableFromJSON(jsonData) {
     let arrShopping = []
     arrShopping = JSON.parse(jsonData)
@@ -62,25 +59,18 @@ function createTableFromJSON(jsonData) {
                 tabCell.setAttribute('type', 'button')
                 tabCell.setAttribute('value', 'Update Row')
                 tabCell.setAttribute('class', 'updtButton')
-                tabCell.setAttribute('onclick', 'updateRowPre(this.id)')
+                tabCell.setAttribute('onclick', 'rediToUpdt(this.id)')
                 tabCell.setAttribute('id', 'u' + (arrShopping[i][col[0]]))
             }
         }
     }
-function updateRowPre(id) {
-    //need to pass id through to update.html while redirecting
-}
     let divContainer = document.getElementById('showTable')
     divContainer.innerHTML = ""
     divContainer.appendChild(table)
     let divContainerBt = document.getElementById('showBtn')
     divContainerBt.innerHTML = ""
 }
-function updateRow(id) {
-    id = trim(id)
-    id = parseInt(id)
-    
-}
+//This tells the backend to delete a row at given ID
 function deleteRow(id) {
     if (window.confirm('Are you sure you want to delete this item?')) {
     id = trim(id)
@@ -106,8 +96,15 @@ function deleteRow(id) {
     setTimeout(() => {window.location.reload()}, 350)
 }
 }
+//This trims the first char in given string, used for trimming ID
 function trim(s) {
     let sTrimmed = s.substring(1)
     return sTrimmed
+}
+//This redirects to update.html and also stores the given ID in the URL
+function rediToUpdt(id) {
+    id = trim(id)
+    url = 'http://127.0.0.1:5500/update.html?id=' + encodeURIComponent(id)
+    document.location.href = url
 }
 

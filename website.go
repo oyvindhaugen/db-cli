@@ -7,12 +7,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 	"unicode/utf8"
 
 	_ "github.com/lib/pq"
 )
 
+// This tells db.go to insert a new entry, giving it the Item and Amount
 func insertRow(w http.ResponseWriter, r *http.Request) {
 	var data insertedRow
 
@@ -36,20 +36,33 @@ func insertRow(w http.ResponseWriter, r *http.Request) {
 
 	appendToJson()
 }
-func updatehandler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
+
+// This tells db.go to update an entry at given ID, giving it the new Item and Amount
+func updateRow(w http.ResponseWriter, r *http.Request) {
+	var data updatedRow
+
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		fmt.Println(err.Error())
+		var resData updatedRowRes
+		resData.Id = data.Id
+		resData.Result = "There was an error with json data"
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(resData)
 		return
 	}
-	fmt.Fprintf(w, "POST request successful\n")
-	http.Redirect(w, r, "/", http.StatusFound)
-	id := r.FormValue("id")
-	idInt, _ := strconv.Atoi(id)
-	item := r.FormValue("newItem")
-	amount := r.FormValue("newAmount")
-	amountInt, _ := strconv.Atoi(amount)
-	fmt.Printf("id: %v\n item: %s\n amount: %v", idInt, item, amountInt)
+	fmt.Println(data.Id, data.Item, data.Amount)
+	Decide(3, data.Id, data.Item, data.Amount)
+	var resData updatedRowRes
+	resData.Id = data.Id
+	resData.Result = "Successfully updated"
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(resData)
+
+	appendToJson()
 }
+
+// This tells db.go to delete an entry at given ID
 func deleteRow(w http.ResponseWriter, r *http.Request) {
 	var data deletedRow
 
@@ -72,11 +85,14 @@ func deleteRow(w http.ResponseWriter, r *http.Request) {
 
 	appendToJson()
 }
+
+// This handles all the websites, giving them functions
 func handle() {
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fileServer)
 	http.HandleFunc("/delete_row", deleteRow)
 	http.HandleFunc("/insert_row", insertRow)
+	http.HandleFunc("/update_row", updateRow)
 	appendToJson()
 	fmt.Printf("Starting server at port 127.0.0.1:5500\n")
 	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
@@ -86,6 +102,7 @@ func handle() {
 
 const pass = "iktfag"
 
+// This trims the last character of a string
 func trimLastChar(s string) string {
 	r, size := utf8.DecodeLastRuneInString(s)
 	if r == utf8.RuneError && (size == 0 || size == 1) {
@@ -93,6 +110,8 @@ func trimLastChar(s string) string {
 	}
 	return s[:len(s)-size]
 }
+
+// This selects everything from the database, then adds it into a JSON file for the frontend to use.
 func appendToJson() {
 	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass)
 	db, err := sql.Open("postgres", psqlconn)
@@ -145,4 +164,13 @@ type insertedRow struct {
 type insertedRowRes struct {
 	Result string
 	Item   string
+}
+type updatedRow struct {
+	Id     int
+	Item   string
+	Amount int
+}
+type updatedRowRes struct {
+	Result string
+	Id     int
 }
