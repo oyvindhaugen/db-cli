@@ -34,7 +34,7 @@ function createTableFromJSON(jsonData) {
         if (i === 0) {
             th.classList.add("d-none")
         }
-        if (i === 2) {
+        if (i === 2 || i === 1) {
             th.classList.add("centerAmount")
         }
         if (i === 3) {
@@ -60,7 +60,7 @@ function createTableFromJSON(jsonData) {
             if (j === 0) {
                 tabCell.classList.add("d-none")
             }
-            if (j === 2) {
+            if (j === 2 || j === 1) {
                 tabCell.classList.add("centerAmount")
             }
             if (j === 3) {
