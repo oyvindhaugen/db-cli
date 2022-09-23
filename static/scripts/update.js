@@ -28,11 +28,11 @@ function updateRow() {
     })
 
     console.log(typeof(item.value), amount.value)
-    window.location.href="/"
+    setTimeout(() => {document.location.href="/"}, 350)
 }
 //This parses the ID stored in the URL
 function parseURL() {
-    let url = document.location.href, params = url.split('?')[1].split('&'),data = {}, tmp;
+    let url = document.location.href, params = url.split('?')[1].split('&'), data = {}, tmp;
     for (let i = 0, l = params.length; i < l; i++) {
         tmp = params[i].split('=')
         data[tmp[0]] = tmp[1]
