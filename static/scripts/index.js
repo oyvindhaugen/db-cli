@@ -28,15 +28,26 @@ function createTableFromJSON(jsonData) {
     for (let i = 0; i < col.length + 2; i++) {
         let th = document.createElement("th")
         th.innerHTML = col[i]
+
+
         tr.appendChild(th)
+        if (i === 0) {
+            th.classList.add("d-none")
+        }
+        if (i === 2) {
+            th.classList.add("centerAmount")
+        }
         if (i === 3) {
             th.innerHTML = 'delBtn'
+            th.classList.add("d-none")
             tr.appendChild(th)
         }
         if (i === 4) {
             th.innerHTML = 'updtBtn'
+            th.classList.add("d-none")
             tr.appendChild(th)
         }
+
     }
 
 
@@ -46,21 +57,34 @@ function createTableFromJSON(jsonData) {
         for (let j = 0; j < col.length + 2; j++) {
             let tabCell = tr.insertCell(-1)
             tabCell.innerHTML = arrShopping[i][col[j]]
+            if (j === 0) {
+                tabCell.classList.add("d-none")
+            }
+            if (j === 2) {
+                tabCell.classList.add("centerAmount")
+            }
             if (j === 3) {
-                tabCell.innerHTML = 'Delete'
+                tabCell.innerHTML = " "
+                let img = document.createElement('img')
+                img.setAttribute('src', 'https://cdn-icons-png.flaticon.com/512/484/484662.png')
+                img.setAttribute('width', '20px')
                 tabCell.setAttribute('type', 'button')
                 tabCell.setAttribute('value', 'Delete Row')
-                tabCell.setAttribute('class', 'delButton')
+                tabCell.classList.add('align-self-center', 'btn', 'btn-danger')
                 tabCell.setAttribute('onclick', 'deleteRow(this.id)')
                 tabCell.setAttribute('id', 'd' + (arrShopping[i][col[0]]))
+                tabCell.appendChild(img)
             }
             if (j === 4) {
-                tabCell.innerHTML = 'Update'
+                tabCell.innerHTML = " "
+                let img = document.createElement('img')
+                img.setAttribute('src', 'https://cdn-icons-png.flaticon.com/512/1250/1250925.png')
+                img.setAttribute('width', '20px')
                 tabCell.setAttribute('type', 'button')
-                tabCell.setAttribute('value', 'Update Row')
-                tabCell.setAttribute('class', 'updtButton')
+                tabCell.classList.add('align-self-center', 'btn', 'btn-success')
                 tabCell.setAttribute('onclick', 'rediToUpdt(this.id)')
                 tabCell.setAttribute('id', 'u' + (arrShopping[i][col[0]]))
+                tabCell.appendChild(img)
             }
         }
     }
@@ -73,28 +97,28 @@ function createTableFromJSON(jsonData) {
 //This tells the backend to delete a row at given ID
 function deleteRow(id) {
     if (window.confirm('Are you sure you want to delete this item?')) {
-    id = trim(id)
-    id = parseInt(id)
-    let data = {
-        Id: id
-    }
-    fetch("/delete_row", {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify(data)
-    }).then((response) => {
-        response.text().then(function (data) {
-            let result = JSON.parse(data)
-            console.log(result)
+        id = trim(id)
+        id = parseInt(id)
+        let data = {
+            Id: id
+        }
+        fetch("/delete_row", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(data)
+        }).then((response) => {
+            response.text().then(function (data) {
+                let result = JSON.parse(data)
+                console.log(result)
+            })
+        }).catch((error) => {
+            console.log(error)
         })
-    }).catch((error) => {
-        console.log(error)
-    })
-    setTimeout(() => {window.location.reload()}, 350)
-}
+        setTimeout(() => { window.location.reload() }, 350)
+    }
 }
 //This trims the first char in given string, used for trimming ID
 function trim(s) {

@@ -31,3 +31,6 @@ th:nth-child(even) {
     margin-right: auto;
     margin-top: auto;
 }
+.centerAmount {
+    text-align: center;
+}
