@@ -1,3 +1,4 @@
+
 //This accesses the JSON file containing the data from the database
 let oXHR = new XMLHttpRequest()
 oXHR.onreadystatechange = reportStatus
@@ -28,14 +29,17 @@ function createTableFromJSON(jsonData) {
     for (let i = 0; i < col.length + 2; i++) {
         let th = document.createElement("th")
         th.innerHTML = col[i]
-
-
         tr.appendChild(th)
         if (i === 0) {
             th.classList.add("d-none")
         }
-        if (i === 2 || i === 1) {
+        if (i === 2) {
             th.classList.add("centerAmount")
+            th.classList.add("amountHead")
+        }
+        if (i === 1) {
+            th.classList.add("centerAmount")
+            th.classList.add("itemHead")
         }
         if (i === 3) {
             th.innerHTML = 'delBtn'
@@ -60,9 +64,19 @@ function createTableFromJSON(jsonData) {
             if (j === 0) {
                 tabCell.classList.add("d-none")
             }
-            if (j === 2 || j === 1) {
+            if (j === 2) {
                 tabCell.classList.add("centerAmount")
+                tabCell.classList.add("amountRow")
             }
+            if (j === 1) {
+                tabCell.classList.add("centerAmount")
+                tabCell.classList.add("itemRow")
+            }
+            //checks if it's the last row and if it is, it adds the bottom class
+            if (i + 1 >= arrShopping.length) {
+                tabCell.classList.add("bottom")
+            }
+
             if (j === 3) {
                 tabCell.innerHTML = " "
                 let img = document.createElement('img')
@@ -131,4 +145,3 @@ function rediToUpdt(id) {
     url = 'http://127.0.0.1:5500/update.html?id=' + encodeURIComponent(id)
     document.location.href = url
 }
-
