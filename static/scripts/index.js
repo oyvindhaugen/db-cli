@@ -40,6 +40,7 @@ function createTableFromJSON(jsonData) {
         if (i === 1) {
             th.classList.add("centerAmount")
             th.classList.add("itemHead")
+
         }
         if (i === 3) {
             th.innerHTML = 'delBtn'

@@ -20,5 +20,5 @@ function insertRow() {
     }).catch((error) => {
         console.log(error)
     })
-    window.location.href="/"
+    setTimeout(() => {document.location.href="/"}, 350)
 }

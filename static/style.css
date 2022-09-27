@@ -11,6 +11,7 @@
     border-top: 1px;
     border-right: 1px;
     border-style: solid;
+    width: 6rem;
 }
 .amountRow {
     border-right: 1px;
@@ -50,3 +51,8 @@ th:nth-child(even) {
 .centerAmount {
     text-align: center;
 }
+.values {
+    display: block;
+    text-align: center;
+}
+

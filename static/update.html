@@ -7,14 +7,23 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Update | Shopping List</title>
   <link rel="stylesheet" href="./style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 
 <body>
   <main>
-    <h1>Give new item and amount</h1>
-    <label>Item: <input type="text" id="item"></label>
-    <label>Amount: <input type="number" id="amount"></label>
-    <input type="button" value="Submit" onclick="updateRow()">
+    <div class="jc-center flex-parent">
+      <h1>Give new item and amount</h1>
+    </div>
+    <br>
+    <div class="values">
+      <label>Item: <input type="text" id="item"></label>
+      <label>Amount: <input type="number" id="amount"></label>
+      <br>
+      <br>
+      <input class="btn btn-primary"type="button" value="Submit" onclick="updateRow()">
+    </div>
   </main>
   <script src="./scripts/update.js"></script>
 </body>
