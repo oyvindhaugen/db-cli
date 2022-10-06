@@ -11,7 +11,7 @@ function reportStatus() {
 }
 //https://www.w3schools.com/js/js_ajax_http.asp
 //This for readyStates
-// Show outgoing http request (oXHR) to teacher 
+// Show outgoing xml http request (oXHR) to teacher 
 
 //This uses the data from the JSON file to create a dynamic table.
 function createTableFromJSON(jsonData) {
