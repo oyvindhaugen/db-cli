@@ -63,6 +63,9 @@ func updateRow(w http.ResponseWriter, r *http.Request) {
 }
 
 // This tells db.go to delete an entry at given ID
+//
+//	func deleteRow(w http.ResponseWriter, r *http.Request) {
+//		var data deletedRow
 func deleteRow(w http.ResponseWriter, r *http.Request) {
 	var data deletedRow
 
@@ -70,8 +73,8 @@ func deleteRow(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err.Error())
 		var resData deletedRowRes
-		resData.Id = 0
-		resData.Result = "There was an error with json data"
+		resData.Id = data.Id
+		resData.Result = "There was an error with the json data"
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(resData)
 		return
@@ -142,7 +145,7 @@ func appendToJson() {
 
 	toJsonString = trimLastChar(toJsonString)
 	toJsonString = "[" + toJsonString + "]"
-	_ = os.WriteFile("./static/selectQuery.json", []byte(toJsonString), 0666)
+	_ = os.WriteFile("./static/data.json", []byte(toJsonString), 0666)
 }
 
 type toJson struct {

@@ -2,16 +2,13 @@
 //This accesses the JSON file containing the data from the database
 let oXHR = new XMLHttpRequest()
 oXHR.onreadystatechange = reportStatus
-oXHR.open("GET", "../selectQuery.json", true)
+oXHR.open("GET", "../data.json", true)
 oXHR.send()
 function reportStatus() {
     if (oXHR.readyState === 4) {
         createTableFromJSON(this.responseText)
     }
 }
-//https://www.w3schools.com/js/js_ajax_http.asp
-//This for readyStates
-// Show outgoing xml http request (oXHR) to teacher 
 
 //This uses the data from the JSON file to create a dynamic table.
 function createTableFromJSON(jsonData) {
@@ -136,7 +133,7 @@ function deleteRow(id) {
         }).catch((error) => {
             console.log(error)
         })
-        setTimeout(() => { window.location.reload() }, 350)
+        setTimeout(() => {window.location.reload()}, 350)
     }
 }
 //This trims the first char in given string, used for trimming ID
