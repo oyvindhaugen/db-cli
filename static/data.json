@@ -1,25 +1,13 @@
 [{
- "Id": 44,
- "Item": "Pasta",
- "Amount": 8
+ "Id": 1,
+ "Item": "test",
+ "Amount": 68
 },{
- "Id": 45,
- "Item": "Meat Loaf",
+ "Id": 2,
+ "Item": "sex",
+ "Amount": 2
+},{
+ "Id": 3,
+ "Item": "sexx",
  "Amount": 3
-},{
- "Id": 46,
- "Item": "Apples",
- "Amount": 88
-},{
- "Id": 47,
- "Item": "Banana",
- "Amount": 69
-},{
- "Id": 48,
- "Item": "Steak",
- "Amount": 4
-},{
- "Id": 43,
- "Item": "Egg",
- "Amount": 8
 }]

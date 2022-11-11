@@ -97,8 +97,8 @@ func handle() {
 	http.HandleFunc("/insert_row", insertRow)
 	http.HandleFunc("/update_row", updateRow)
 	appendToJson()
-	fmt.Printf("Starting server at port 127.0.0.1:5500\n")
-	if err := http.ListenAndServe("127.0.0.1:5500", nil); err != nil {
+	fmt.Printf("Starting server at port localhost:8080\n")
+	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -116,7 +116,7 @@ func trimLastChar(s string) string {
 
 // This selects everything from the database, then adds it into a JSON file for the frontend to use.
 func appendToJson() {
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = postgres password = %s  dbname = postgres sslmode=disable", pass)
+	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = oyvind password = iktfag dbname = test_db sslmode=disable")
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
 		log.Fatal()
@@ -127,7 +127,7 @@ func appendToJson() {
 		item   string
 		amount int
 	)
-	res, err := db.Query("select * from shopping;")
+	res, err := db.Query("SELECT * FROM shopping;")
 	if err != nil {
 		return
 	}
