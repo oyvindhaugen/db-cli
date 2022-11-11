@@ -97,7 +97,6 @@ func handle() {
 	http.HandleFunc("/insert_row", insertRow)
 	http.HandleFunc("/update_row", updateRow)
 	appendToJson()
-	fmt.Printf("Starting server at port localhost:8080\n")
 	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		log.Fatal(err)
 	}
