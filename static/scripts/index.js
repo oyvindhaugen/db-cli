@@ -144,6 +144,6 @@ function trim(s) {
 //This redirects to update.html and also stores the given ID in the URL
 function rediToUpdt(id) {
     id = trim(id)
-    url = 'http://127.0.0.1:5500/update.html?id=' + encodeURIComponent(id)
+    url = 'http://localhost:8080/update.html?id=' + encodeURIComponent(id)
     document.location.href = url
 }
