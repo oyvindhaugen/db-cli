@@ -15,11 +15,11 @@ import (
 // This tells db.go to insert a new entry, giving it the Item and Amount
 func insertRow(w http.ResponseWriter, r *http.Request) {
 	var data insertedRow
-
+	var resData insertedRowRes
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		fmt.Println(err.Error())
-		var resData insertedRowRes
+
 		resData.Item = data.Item
 		resData.Result = "There was an error with json data"
 		w.Header().Set("Content-Type", "application/json")
@@ -28,7 +28,6 @@ func insertRow(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(data.Item, data.Amount)
 	Decide(1, 0, data.Item, data.Amount)
-	var resData insertedRowRes
 	resData.Item = data.Item
 	resData.Result = "Successfully inserted"
 	w.Header().Set("Content-Type", "application/json")
@@ -40,11 +39,11 @@ func insertRow(w http.ResponseWriter, r *http.Request) {
 // This tells db.go to update an entry at given ID, giving it the new Item and Amount
 func updateRow(w http.ResponseWriter, r *http.Request) {
 	var data updatedRow
-
+	var resData updatedRowRes
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		fmt.Println(err.Error())
-		var resData updatedRowRes
+
 		resData.Id = data.Id
 		resData.Result = "There was an error with json data"
 		w.Header().Set("Content-Type", "application/json")
@@ -53,7 +52,7 @@ func updateRow(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(data.Id, data.Item, data.Amount)
 	Decide(3, data.Id, data.Item, data.Amount)
-	var resData updatedRowRes
+
 	resData.Id = data.Id
 	resData.Result = "Successfully updated"
 	w.Header().Set("Content-Type", "application/json")
@@ -68,11 +67,11 @@ func updateRow(w http.ResponseWriter, r *http.Request) {
 //		var data deletedRow
 func deleteRow(w http.ResponseWriter, r *http.Request) {
 	var data deletedRow
-
+	var resData deletedRowRes
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		fmt.Println(err.Error())
-		var resData deletedRowRes
+
 		resData.Id = data.Id
 		resData.Result = "There was an error with the json data"
 		w.Header().Set("Content-Type", "application/json")
@@ -80,7 +79,7 @@ func deleteRow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	Decide(2, data.Id, "", 0)
-	var resData deletedRowRes
+
 	resData.Id = data.Id
 	resData.Result = "Successfully deleted"
 	w.Header().Set("Content-Type", "application/json")
@@ -101,8 +100,6 @@ func handle() {
 		log.Fatal(err)
 	}
 }
-
-const pass = "iktfag"
 
 // This trims the last character of a string
 func trimLastChar(s string) string {

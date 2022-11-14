@@ -1,13 +1,13 @@
 [{
- "Id": 1,
- "Item": "test",
- "Amount": 68
-},{
- "Id": 2,
- "Item": "sex",
- "Amount": 2
-},{
- "Id": 3,
- "Item": "sexx",
+ "Id": 4,
+ "Item": "Pizza",
  "Amount": 3
+},{
+ "Id": 5,
+ "Item": "Sausage",
+ "Amount": 99
+},{
+ "Id": 1,
+ "Item": "sss",
+ "Amount": 44
 }]

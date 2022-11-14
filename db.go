@@ -45,7 +45,6 @@ func insert(item string, amount int) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("Success")
 	return nil
 }
 
@@ -61,7 +60,6 @@ func del(id int) error {
 		fmt.Println(err)
 		return err
 	}
-	fmt.Println("Success")
 	appendToJson()
 	return nil
 }
@@ -78,6 +76,5 @@ func updt(id int, item string, amount int) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("Success")
 	return nil
 }
