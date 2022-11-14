@@ -1,3 +1,4 @@
-selectQuery.json
+*.json
 *.sql
 sketch.png
+db-cli.exe
