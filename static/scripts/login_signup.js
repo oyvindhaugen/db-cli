@@ -43,8 +43,15 @@ function login() {
             localStorage.setItem('Id', result.Id)
             alert(data)
             document.location.href = '/'
+        }).catch((error) => {
+            console.log(error)
+            alert("Please try again")
+            username.value = ""
+            password.value = ""
+
         })
     }).catch((error) => {
         console.log(error)
+
     })
 }

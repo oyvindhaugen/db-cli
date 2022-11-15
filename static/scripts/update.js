@@ -4,11 +4,12 @@ function updateRow() {
     id = parseInt(id)
     let item = document.getElementById('item')
     let amount = document.getElementById('amount')
-    console.log(id, item.value, parseInt(amount.value))
+    let userId = localStorage.getItem('Id')
     let data = {
         Id: id ,
         Item: item.value ,
-        Amount: parseInt(amount.value)
+        Amount: parseInt(amount.value) ,
+        UserId: parseInt(userId)
     }
     console.log(data)
     fetch('/update_row', {

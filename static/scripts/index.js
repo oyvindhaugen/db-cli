@@ -115,8 +115,10 @@ function deleteRow(id) {
     if (window.confirm('Are you sure you want to delete this item?')) {
         id = trim(id)
         id = parseInt(id)
+        let userId = localStorage.getItem('Id')
         let data = {
-            Id: id
+            Id: id,
+            UserId: parseInt(userId)
         }
         fetch("/delete_row", {
             headers: {
@@ -133,7 +135,7 @@ function deleteRow(id) {
         }).catch((error) => {
             console.log(error)
         })
-        setTimeout(() => {window.location.reload()}, 350)
+        setTimeout(() => { window.location.reload() }, 350)
     }
 }
 //This trims the first char in given string, used for trimming ID
@@ -146,4 +148,25 @@ function rediToUpdt(id) {
     id = trim(id)
     url = 'http://localhost:8080/update.html?id=' + encodeURIComponent(id)
     document.location.href = url
+}
+function isLoggedIn() {
+    let s = localStorage.getItem('Id')
+    if (s != null) {
+        location.href = 'insert.html'
+    } else {
+        alert('please log in before adding new items.')
+    }
+}
+function logout() {
+    localStorage.clear()
+    fetch("/logout", {
+        method: "POST"
+    }).then((response) => {
+        response.text().then(function (data) {
+            alert("You are now logged out")
+        })
+    }).catch((error) => {
+        console.log(error)
+    })
+    setTimeout(() => {window.location.reload()}, 350)
 }

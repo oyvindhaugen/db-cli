@@ -1,9 +1,11 @@
 function insertRow() {
     let item = document.getElementById('item')
     let amount = document.getElementById('amount')
+    let userId = localStorage.getItem('Id')
     let data = {
-        Item: item.value ,
-        Amount: parseInt(amount.value)
+        Item: item.value,
+        Amount: parseInt(amount.value),
+        UserId: parseInt(userId)
     }
     fetch('/insert_row', {
         headers: {
@@ -20,5 +22,5 @@ function insertRow() {
     }).catch((error) => {
         console.log(error)
     })
-    setTimeout(() => {document.location.href="/"}, 350)
+    setTimeout(() => { document.location.href = "/" }, 350)
 }
