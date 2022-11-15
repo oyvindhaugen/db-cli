@@ -18,6 +18,8 @@ github.com/tillberg/stringset v0.0.0-20220429204947-12df33ab1cd6 h1:9QVeacXfCTL1
 github.com/tillberg/stringset v0.0.0-20220429204947-12df33ab1cd6/go.mod h1:fYcF9dZnzutLCGBoA9x0Umi4kqTf5PsSXTW+M4P0qaE=
 github.com/tillberg/watcher v0.0.0-20200309151633-e9412552417a h1:bEuy52O1mMAemrWT8/fHsvYYc43jaZ2RRmsj+1aYtUg=
 github.com/tillberg/watcher v0.0.0-20200309151633-e9412552417a/go.mod h1:5jDyx/qS4SXr0VPTpPikj9jLQAIR3cqdtZy2f5M2KuA=
+golang.org/x/crypto v0.2.0 h1:BRXPfhNivWL5Yq0BGQ39a2sW6t44aODpfxkWjYdzewE=
+golang.org/x/crypto v0.2.0/go.mod h1:hebNnKkNXi2UzZN1eVRvBB7co0a+JxK6XbPiWVs/3J4=
 golang.org/x/sync v0.0.0-20210220032951-036812b2e83c h1:5KslGYwFpkhGh+Q16bwMP3cOontH8FOep7tGV86Y7SQ=
 golang.org/x/sync v0.0.0-20210220032951-036812b2e83c/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sys v0.0.0-20220429121018-84afa8d3f7b3 h1:kBsBifDikLCf5sUMbcD8p73OinDtAQWQp8+n7FiyzlA=

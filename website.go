@@ -87,6 +87,50 @@ func deleteRow(w http.ResponseWriter, r *http.Request) {
 
 	appendToJson()
 }
+func signup(w http.ResponseWriter, r *http.Request) {
+	var data signUp
+	var resData signUpRes
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		fmt.Println(err.Error())
+		resData.Result = "There was an error with the json data"
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(resData)
+		return
+	}
+	res := NewUser(data.Username, data.Password)
+	if !res {
+		resData.Result = "Error signing up"
+		return
+	}
+	resData.Result = "New user successfully created"
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(resData)
+}
+func login(w http.ResponseWriter, r *http.Request) {
+	var data logIn
+	var resData logInRes
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		fmt.Println(err.Error())
+		resData.Result = "There was an error with the json data"
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(resData)
+		return
+	}
+	fmt.Println(data.Username)
+	res, id := Login(data.Username, data.Password)
+	fmt.Println(id)
+	if !res {
+		resData.Result = "Error logging in"
+		resData.Id = 0
+		return
+	}
+	resData.Result = "Successfully logged in"
+	resData.Id = id
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(resData)
+}
 
 // This handles all the websites, giving them functions
 func handle() {
@@ -95,6 +139,8 @@ func handle() {
 	http.HandleFunc("/delete_row", deleteRow)
 	http.HandleFunc("/insert_row", insertRow)
 	http.HandleFunc("/update_row", updateRow)
+	http.HandleFunc("/signup", signup)
+	http.HandleFunc("/login", login)
 	appendToJson()
 	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		log.Fatal(err)
@@ -112,7 +158,7 @@ func trimLastChar(s string) string {
 
 // This selects everything from the database, then adds it into a JSON file for the frontend to use.
 func appendToJson() {
-	psqlconn := fmt.Sprintf("host= localhost port = 5432 user = oyvind password = iktfag dbname = test_db sslmode=disable")
+	psqlconn := fmt.Sprintf("host = localhost port = 5432 user = oyvind password = iktfag dbname = test_db sslmode=disable") //implement .env
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
 		log.Fatal()
@@ -144,6 +190,21 @@ func appendToJson() {
 	_ = os.WriteFile("./static/data.json", []byte(toJsonString), 0666)
 }
 
+type signUp struct {
+	Username string
+	Password string
+}
+type signUpRes struct {
+	Result string
+}
+type logIn struct {
+	Username string
+	Password string
+}
+type logInRes struct {
+	Result string
+	Id     int
+}
 type toJson struct {
 	Id     int
 	Item   string

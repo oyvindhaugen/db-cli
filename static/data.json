@@ -1,13 +1,1 @@
-[{
- "Id": 4,
- "Item": "Pizza",
- "Amount": 3
-},{
- "Id": 5,
- "Item": "Sausage",
- "Amount": 99
-},{
- "Id": 1,
- "Item": "sss",
- "Amount": 44
-}]
+[]
