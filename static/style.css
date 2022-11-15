@@ -55,4 +55,10 @@ th:nth-child(even) {
     display: block;
     text-align: center;
 }
+.visible {
+    visibility: 100%;
+}
+.nvisible {
+    visibility: 0%;
+}
 

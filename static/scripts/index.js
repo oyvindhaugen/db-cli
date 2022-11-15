@@ -1,4 +1,16 @@
-
+window.onload = function() {
+    if (localStorage.getItem('Id') !== null) {
+        let su = document.getElementById('login'), li = document.getElementById('signup'), lo = document.getElementById('logout')
+        su?.classList.replace('d-flex', 'd-none') 
+        li?.classList.replace('d-flex', 'd-none') 
+        lo?.classList.replace('d-none', 'd-flex')
+    } else {
+        let su = document.getElementById('login'), li = document.getElementById('signup'), lo = document.getElementById('logout')
+        su?.classList.replace('d-none', 'd-flex') 
+        li?.classList.replace('d-none', 'd-flex') 
+        lo?.classList.replace('d-flex', 'd-none')
+    }
+}
 //This accesses the JSON file containing the data from the database
 let oXHR = new XMLHttpRequest()
 oXHR.onreadystatechange = reportStatus
@@ -146,7 +158,7 @@ function trim(s) {
 //This redirects to update.html and also stores the given ID in the URL
 function rediToUpdt(id) {
     id = trim(id)
-    url = 'http://localhost:8080/update.html?id=' + encodeURIComponent(id)
+    let url = 'http://localhost:8080/update.html?id=' + encodeURIComponent(id)
     document.location.href = url
 }
 function isLoggedIn() {
@@ -162,7 +174,7 @@ function logout() {
     fetch("/logout", {
         method: "POST"
     }).then((response) => {
-        response.text().then(function (data) {
+        response.text().then(function () {
             alert("You are now logged out")
         })
     }).catch((error) => {
