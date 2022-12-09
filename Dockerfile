@@ -3,6 +3,7 @@ FROM ubuntu:latest
 COPY db.go .
 COPY main.go .
 COPY website.go .
+COPY hash.go .
 COPY go.mod .
 COPY go.sum .
 COPY static /static
