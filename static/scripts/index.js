@@ -1,4 +1,16 @@
-
+window.onload = function() {
+    if (localStorage.getItem('Id') !== null) {
+        let su = document.getElementById('login'), li = document.getElementById('signup'), lo = document.getElementById('logout')
+        su?.classList.replace('d-flex', 'd-none') 
+        li?.classList.replace('d-flex', 'd-none') 
+        lo?.classList.replace('d-none', 'd-flex')
+    } else {
+        let su = document.getElementById('login'), li = document.getElementById('signup'), lo = document.getElementById('logout')
+        su?.classList.replace('d-none', 'd-flex') 
+        li?.classList.replace('d-none', 'd-flex') 
+        lo?.classList.replace('d-flex', 'd-none')
+    }
+}
 //This accesses the JSON file containing the data from the database
 let oXHR = new XMLHttpRequest()
 oXHR.onreadystatechange = reportStatus
@@ -115,8 +127,10 @@ function deleteRow(id) {
     if (window.confirm('Are you sure you want to delete this item?')) {
         id = trim(id)
         id = parseInt(id)
+        let userId = localStorage.getItem('Id')
         let data = {
-            Id: id
+            Id: id,
+            UserId: parseInt(userId)
         }
         fetch("/delete_row", {
             headers: {
@@ -133,7 +147,7 @@ function deleteRow(id) {
         }).catch((error) => {
             console.log(error)
         })
-        setTimeout(() => {window.location.reload()}, 350)
+        setTimeout(() => { window.location.reload() }, 350)
     }
 }
 //This trims the first char in given string, used for trimming ID
@@ -144,6 +158,27 @@ function trim(s) {
 //This redirects to update.html and also stores the given ID in the URL
 function rediToUpdt(id) {
     id = trim(id)
-    url = 'http://127.0.0.1:5500/update.html?id=' + encodeURIComponent(id)
+    let url = 'http://localhost:8080/update.html?id=' + encodeURIComponent(id)
     document.location.href = url
+}
+function isLoggedIn() {
+    let s = localStorage.getItem('Id')
+    if (s != null) {
+        location.href = 'insert.html'
+    } else {
+        alert('please log in before adding new items.')
+    }
+}
+function logout() {
+    localStorage.clear()
+    fetch("/logout", {
+        method: "POST"
+    }).then((response) => {
+        response.text().then(function () {
+            alert("You are now logged out")
+        })
+    }).catch((error) => {
+        console.log(error)
+    })
+    setTimeout(() => {window.location.reload()}, 350)
 }
