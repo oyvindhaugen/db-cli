@@ -11,3 +11,6 @@ RUN apt-get update
 RUN apt-get install -y ca-certificates
 RUN apt-get install -y golang
 RUN apt-get install -y vim
+RUN go get golang.org/x/crypto
+RUN go get github.com/lib/pq
+RUN go run .

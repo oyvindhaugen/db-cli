@@ -143,6 +143,7 @@ func handle() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/logout", logout)
 	//not running appendToJson()
+	fmt.Println("Starting server at localhost:8080")
 	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		log.Fatal(err)
 	}
